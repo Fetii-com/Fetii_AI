@@ -1,0 +1,5 @@
+.dashboard-wrapper {
+  background: #2d3b4e;
+  height: 100vh;
+  overflow-y: auto;
+}
