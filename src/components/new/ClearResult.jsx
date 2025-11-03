@@ -21,7 +21,7 @@ const ClearResult = ({ onClear, isSidebarOpen = false }) => {
   const containerStyle = {
     position: "fixed",
     width: isMobile ? "100%" : "calc(100% - 400px)",
-    left: isMobile ? "0" : "340px",
+    left: isMobile ? "0" : "306px",
     top: "20px",
     display: shouldHide ? "none" : "flex",
     alignItems: "center",
@@ -39,7 +39,7 @@ const ClearResult = ({ onClear, isSidebarOpen = false }) => {
     fontSize: "13px",
     color: "#fff",
     cursor: "pointer",
-    fontWeight: "500",
+    fontWeight: "400",
     borderRadius: "24px",
     pointerEvents: "auto", // Enable clicks on button
     userSelect: "none", // Prevent text selection

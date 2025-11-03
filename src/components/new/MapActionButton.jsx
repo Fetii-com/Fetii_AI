@@ -31,7 +31,7 @@ const MapActionButton = () => {
     outline: "none",
     cursor: "pointer",
     backgroundColor: "transparent",
-    padding: "4px",
+    padding: "0",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -48,8 +48,7 @@ const MapActionButton = () => {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    gap: 10,
-    height: "80px",
+    gap: 16,
     borderRadius: 24,
     backgroundColor: "#007bff",
     color: "#fff",
@@ -61,7 +60,7 @@ const MapActionButton = () => {
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className="arrow-plus-min">
       <button
         style={buttonStyle}
         onClick={handleZoomIn}
