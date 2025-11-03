@@ -126,6 +126,14 @@ const Sidebar = ({
           isOpen ? "sidebar-open" : "sidebar-closed"
         }`}
       >
+        <div class="gradient-blur">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
         <div className="sidebar-wrapper">
           <div className="sidebar-wrapper-inner">
             <div
@@ -133,9 +141,9 @@ const Sidebar = ({
               style={{
                 background: contentReachedLogo
                   ? // ? "rgba(0, 0, 0, 0.3)"
-                    "linear-gradient(rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)"
+                    "rgba(255, 255, 255, 0.05)"
                   : "transparent",
-                backdropFilter: contentReachedLogo ? "blur(10px)" : "none",
+                backdropFilter: contentReachedLogo ? "" : "none",
                 WebkitBackdropFilter: contentReachedLogo
                   ? "blur(10px)"
                   : "none",
