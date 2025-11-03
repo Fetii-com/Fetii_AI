@@ -4,26 +4,31 @@ import React from "react";
 import "../../../assets/styles/card.css";
 
 /* PlaceCard Component */
-const PlaceCard = ({ indicator, visits, title, address, category }) => {
+const PlaceCard = ({
+  indicator,
+  visits,
+  title,
+  address,
+  category,
+  onClick,
+}) => {
   return (
-    <div className="place-card">
+    <div
+      className="place-card"
+      onClick={onClick}
+      style={{ cursor: onClick ? "pointer" : "default" }}
+    >
       {/* Top row with indicator and visits */}
       <div className="place-card-header">
         {/* Top-left circle indicator */}
-        <div className="place-card-indicator">
-          {indicator}
-        </div>
+        <div className="place-card-indicator">{indicator}</div>
 
         {/* Top-right visits tag */}
-        <div className="place-card-visits">
-          {visits} Visits
-        </div>
+        <div className="place-card-visits">{visits} Visits</div>
       </div>
 
       {/* Place name */}
-      <h2 className="place-card-title">
-        {title}
-      </h2>
+      <h2 className="place-card-title">{title}</h2>
 
       {/* Address and category */}
       <p className="place-card-subtitle">
@@ -34,4 +39,3 @@ const PlaceCard = ({ indicator, visits, title, address, category }) => {
 };
 
 export default PlaceCard;
-

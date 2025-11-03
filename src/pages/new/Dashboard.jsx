@@ -20,6 +20,7 @@ const DESKTOP_BREAKPOINT = 1024;
 const NewDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [assistantData, setAssistantData] = useState(null);
+  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
   /* Handle window resize - on desktop, sidebar should always be open - Automatically opens sidebar on desktop screens (>1024px) */
   useEffect(() => {
@@ -60,6 +61,8 @@ const NewDashboard = () => {
             title: "The Aquarium on 6th",
             address: "East 6th Street, Austin, TX",
             category: "Entertainment",
+            lat: 30.2672,
+            lng: -97.7324,
           },
           {
             indicator: 2,
@@ -67,6 +70,8 @@ const NewDashboard = () => {
             title: "Wiggle Room",
             address: "Nueces Street, Austin, TX",
             category: "Nightlife",
+            lat: 30.2691,
+            lng: -97.7501,
           },
           {
             indicator: 3,
@@ -74,6 +79,8 @@ const NewDashboard = () => {
             title: "Shakespeare's",
             address: "East 6th Street, Austin, TX",
             category: "Entertainment",
+            lat: 30.2678,
+            lng: -97.733,
           },
           {
             indicator: 4,
@@ -81,6 +88,8 @@ const NewDashboard = () => {
             title: "Mayfair Austin",
             address: "West 6th Street, Austin, TX",
             category: "Nightlife",
+            lat: 30.2685,
+            lng: -97.7519,
           },
           {
             indicator: 5,
@@ -88,6 +97,8 @@ const NewDashboard = () => {
             title: "Latchkey",
             address: "East 6th Street, Austin, TX",
             category: "Entertainment",
+            lat: 30.2668,
+            lng: -97.732,
           },
         ],
       };
@@ -101,6 +112,7 @@ const NewDashboard = () => {
   /* Clears assistant data and resets to initial state */
   const handleClearResults = () => {
     setAssistantData(null);
+    setSelectedMarkerId(null);
   };
 
   return (
@@ -122,12 +134,21 @@ const NewDashboard = () => {
       )}
 
       {assistantData && assistantData.cards && (
-        <PlaceCardWrapper cards={assistantData.cards} />
+        <PlaceCardWrapper
+          cards={assistantData.cards}
+          onCardClick={setSelectedMarkerId}
+          selectedCardIndex={selectedMarkerId}
+        />
       )}
 
       {/*------ Map and other functionality will be here ------*/}
       <div className="dashboard-wrapper">
-        <LeafletMap places={assistantData?.cards || []} />
+        <LeafletMap
+          places={assistantData?.cards || []}
+          selectedMarkerId={selectedMarkerId}
+          onMarkerDeselect={() => setSelectedMarkerId(null)}
+          onMarkerSelect={setSelectedMarkerId}
+        />
       </div>
     </>
   );

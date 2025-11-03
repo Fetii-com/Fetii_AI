@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,6 +8,10 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import MapActionButton from "./MapActionButton";
+
+// Animation duration constants (in milliseconds) - synced across components
+export const ANIMATION_DURATION = 800; // 0.8 seconds for map pan and card scroll
+export const POPUP_DELAY = 700; // Start opening popup during animation for synchronized feel (70% through animation)
 
 // Fix Leaflet default icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -68,50 +72,89 @@ function MapBoundsController({ places }) {
   return null;
 }
 
-// Simple geocoding for Austin addresses (mock coordinates)
-// In production, you'd use a real geocoding service
-const geocodeAddress = (address) => {
-  // Mock coordinates for Austin addresses
-  // In production, use a service like Nominatim, Google Geocoding API, etc.
-  const addressMap = {
-    "East 6th Street": [30.2672, -97.7324],
-    "Nueces Street": [30.2691, -97.7501],
-    "West 6th Street": [30.2685, -97.7519],
-  };
+// Component to handle marker selection and popup opening
+function MapMarkerController({ places, selectedMarkerId, markerRefs }) {
+  const map = useMap();
 
-  // Try to find a match
-  for (const [key, coords] of Object.entries(addressMap)) {
-    if (address.includes(key)) {
-      // Add slight random offset to simulate different locations on same street
-      return [
-        coords[0] + (Math.random() - 0.5) * 0.01,
-        coords[1] + (Math.random() - 0.5) * 0.01,
-      ];
+  useEffect(() => {
+    // Focus on selected marker when selectedMarkerId changes
+    if (selectedMarkerId !== null && places && places[selectedMarkerId]) {
+      const selectedPlace = places[selectedMarkerId];
+      if (selectedPlace.lat && selectedPlace.lng) {
+        // Close all existing popups first
+        Object.values(markerRefs.current).forEach((marker) => {
+          if (marker) {
+            marker.closePopup();
+          }
+        });
+
+        // Pan and zoom to selected marker
+        map.setView([selectedPlace.lat, selectedPlace.lng], 15, {
+          animate: true,
+          duration: ANIMATION_DURATION / 1000, // Convert ms to seconds
+        });
+
+        // Open popup for selected marker - synced with animation
+        setTimeout(() => {
+          const marker = markerRefs.current[selectedMarkerId];
+          if (marker) {
+            marker.openPopup();
+          }
+        }, POPUP_DELAY);
+      }
     }
-  }
+  }, [selectedMarkerId, places, map, markerRefs]);
 
-  // Default to central Austin with slight offset
-  return [
-    30.2672 + (Math.random() - 0.5) * 0.02,
-    -97.7431 + (Math.random() - 0.5) * 0.02,
-  ];
-};
+  return null;
+}
 
-const LeafletMap = ({ places = [] }) => {
+// Component to handle map clicks and close popups when clicking outside
+function MapClickHandler({ markerRefs, onMapClick }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const handleMapClick = (e) => {
+      // Check if click target is not a marker or popup
+      const target = e.originalEvent.target;
+      const isMarker = target.closest('.custom-marker');
+      const isPopup = target.closest('.leaflet-popup');
+      
+      // If clicking on the map (not on marker or popup), close all popups
+      if (!isMarker && !isPopup) {
+        Object.values(markerRefs.current).forEach((marker) => {
+          if (marker) {
+            marker.closePopup();
+          }
+        });
+        
+        // Reset selected marker ID if callback provided
+        if (onMapClick) {
+          onMapClick();
+        }
+      }
+    };
+
+    map.on('click', handleMapClick);
+
+    return () => {
+      map.off('click', handleMapClick);
+    };
+  }, [map, markerRefs, onMapClick]);
+
+  return null;
+}
+
+const LeafletMap = ({ places = [], selectedMarkerId = null, onMarkerDeselect = null, onMarkerSelect = null }) => {
   // Default center coordinates (Austin, TX)
   const center = [30.2672, -97.7431];
   const zoom = 13;
 
-  // Process places to add coordinates
+  // Ref to store marker references
+  const markerRefs = useRef({});
+
+  // Filter places that have coordinates (lat and lng from mockResponse)
   const placesWithCoords = useMemo(() => {
-    return places.map((place) => {
-      const [lat, lng] = geocodeAddress(place.address);
-      return {
-        ...place,
-        lat,
-        lng,
-      };
-    });
+    return places.filter((place) => place.lat && place.lng);
   }, [places]);
 
   return (
@@ -136,16 +179,54 @@ const LeafletMap = ({ places = [] }) => {
 
         <MapBoundsController places={placesWithCoords} />
 
+        <MapMarkerController 
+          places={placesWithCoords} 
+          selectedMarkerId={selectedMarkerId}
+          markerRefs={markerRefs}
+        />
+
+        <MapClickHandler 
+          markerRefs={markerRefs}
+          onMapClick={onMarkerDeselect}
+        />
+
         <MapActionButton />
 
         {/* Markers for each place */}
         {placesWithCoords.map((place, index) => (
           <Marker
             key={`marker-${place.title}-${index}`}
+            ref={(ref) => {
+              markerRefs.current[index] = ref;
+            }}
             position={[place.lat, place.lng]}
             icon={createCustomIcon(place.indicator)}
+            eventHandlers={{
+              click: (e) => {
+                // Close all other popups first
+                Object.values(markerRefs.current).forEach((marker, idx) => {
+                  if (marker && idx !== index) {
+                    marker.closePopup();
+                  }
+                });
+                // Open this marker's popup
+                e.target.openPopup();
+                // Notify parent component about marker selection for card scrolling
+                if (onMarkerSelect) {
+                  onMarkerSelect(index);
+                }
+              },
+              mouseover: (e) => {
+                // Close all other popups first
+                Object.values(markerRefs.current).forEach((marker, idx) => {
+                  if (marker && idx !== index) {
+                    marker.closePopup();
+                  }
+                });
+              },
+            }}
           >
-            <Popup>
+            <Popup closeButton={false} autoClose={false} closeOnClick={false}>
               <div className="custom-popup-content">
                 <div className="popup-header">
                   <div className="popup-indicator-circle">
