@@ -49,14 +49,15 @@ const MapActionButton = () => {
     justifyContent: "center",
     flexDirection: "column",
     gap: 10,
-    borderRadius: 25,
-    backgroundColor: "#981FF5",
+    height: "80px",
+    borderRadius: 24,
+    backgroundColor: "#007bff",
     color: "#fff",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
-    background: "linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    padding: "12px 8px",
-    backdropFilter: "blur(10px)",
-    pointerEvents: "auto",
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.15);",
+    background: "rgba(0, 0, 0, 0.15)",
+    padding: "12px",
+    backdropFilter: "blur(15px)",
+    border: "1px solid rgba(255, 255, 255, 0.05)"
   };
 
   return (

@@ -9,7 +9,6 @@ import LeftDownIcon from "../../assets/images/left-down-arrow.svg";
 // styles
 import "../../assets/styles/sidebar.css";
 
-/* Quick suggestion prompts displayed to users */
 const quickSuggestions = [
   "What are the top 5 drop-off locations?",
   "Where are college kids frequenting on weekdays?",

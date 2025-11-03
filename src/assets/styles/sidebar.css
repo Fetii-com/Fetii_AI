@@ -14,7 +14,7 @@
 .sidebar-container {
   width: 300px;
   height: 100%;
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,26 +29,34 @@
 .sidebar-wrapper {
   height: 100%;
   width: 100%;
-  padding: 4px;
   position: relative;
   border-radius: 24px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  box-shadow: 0px 2px 4px 0px #00000026;
-  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.15);
+  background-blend-mode: plus-darker;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(15px);
 }
 
 /* Sidebar Wrapper Inner Container */
 .sidebar-wrapper-inner {
   height: 100%;
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   position: relative;
-  border-radius: 20px;
-  background: transparent;
+}
+.sidebar-wrapper-inner::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.15);
+  mix-blend-mode: darken;
+  border-radius: 24px;
+  z-index: -1;
 }
 
 /* Sidebar Logo Section */
@@ -89,8 +97,7 @@
 .sidebar-content-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 8px;  
   padding-top: 60px; /* Space for logo to always be visible */
   overflow: auto;
   scrollbar-width: none; /* Firefox */
@@ -106,15 +113,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  border-width: 4px;
-  border-image: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0) 100%
-    )
-    1;
-  padding: 12px 12px 12px 16px;
+  gap: 4px;
+  padding: 12px 16px;
   background: #ffffff1a;
   border-radius: 16px;
   color: #ffffffcc;
@@ -126,6 +126,7 @@
 .sidebar-quick-suggestion-text {
   color: #ffffffcc;
   width: calc(100% - 20px);
+  font-weight: 500;
 }
 
 /* Sidebar Quick Suggestion Button */
@@ -184,21 +185,21 @@
 }
 
 /* Scrollbar styles for textarea */
-.sidebar-textarea-field::-webkit-scrollbar {
-  width: 4px;
+textarea.sidebar-textarea-field::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 400;
 }
-
-.sidebar-textarea-field::-webkit-scrollbar-track {
-  background: transparent;
+textarea.sidebar-textarea-field:-moz-placeholder { /* Firefox 18- */
+  color: rgba(255, 255, 255, 0.2);  
+  font-weight: 400;
 }
-
-.sidebar-textarea-field::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
+textarea.sidebar-textarea-field::-moz-placeholder {  /* Firefox 19+ */
+  color: rgba(255, 255, 255, 0.2);  
+  font-weight: 400;
 }
-
-.sidebar-textarea-field::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+textarea.sidebar-textarea-field:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.2);  
+  font-weight: 400;
 }
 
 /* Sidebar Send Button */
@@ -222,7 +223,7 @@
   display: flex;
   flex-direction: column;
   max-width: 85%;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .sidebar-message-content {
@@ -350,12 +351,123 @@
   }
 
   .sidebar-container {
-    width: 300px;
+    width: 302px;
     transform: translateX(0) !important;
+  }
+  
+  .sidebar-container::before{
+    content: '';
+    /* background:  url(../images/left-shade.png); */
+    mask: linear-gradient(270deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.1) 100%);
+    backdrop-filter: blur(8px);
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
   }
 
   .sidebar-container.sidebar-closed,
   .sidebar-container.sidebar-open {
     transform: translateX(0) !important;
   }
+  .gradient-blur {
+  position: absolute;
+  z-index: 0;
+  inset: auto 0 0 0;
+  height: 100%;
+  pointer-events: none;
+}
+.gradient-blur > div,
+.gradient-blur::before,
+.gradient-blur::after {
+  position: absolute;
+  inset: 0;
+}
+.gradient-blur::before {
+  content: "";
+  z-index: 1;
+  backdrop-filter: blur(0.5px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 12.5%,
+    rgba(0, 0, 0, 1) 25%,
+    rgba(0, 0, 0, 0) 37.5%
+  );
+}
+.gradient-blur > div:nth-of-type(1) {
+  z-index: 2;
+  backdrop-filter: blur(1px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 12.5%,
+    rgba(0, 0, 0, 1) 25%,
+    rgba(0, 0, 0, 1) 37.5%,
+    rgba(0, 0, 0, 0) 50%
+  );
+}
+.gradient-blur > div:nth-of-type(2) {
+  z-index: 3;
+  backdrop-filter: blur(2px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 1) 37.5%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) 62.5%
+  );
+}
+.gradient-blur > div:nth-of-type(3) {
+  z-index: 4;
+  backdrop-filter: blur(3px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 37.5%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 1) 62.5%,
+    rgba(0, 0, 0, 0) 75%
+  );
+}
+.gradient-blur > div:nth-of-type(4) {
+  z-index: 5;
+  backdrop-filter: blur(4px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 1) 62.5%,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 0) 87.5%
+  );
+}
+.gradient-blur > div:nth-of-type(5) {
+  z-index: 6;
+  backdrop-filter: blur(6px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 62.5%,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(0, 0, 0, 1) 87.5%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+.gradient-blur > div:nth-of-type(6) {
+  z-index: 7;
+  backdrop-filter: blur(4px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 75%,
+    rgba(0, 0, 0, 1) 87.5%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+.gradient-blur::after {
+  content: "";
+  z-index: 8;
+  backdrop-filter: blur(4px);
+  mask: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 87.5%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
 }
