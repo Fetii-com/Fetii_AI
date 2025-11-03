@@ -1,0 +1,98 @@
+.place-card-wrapper {
+  position: fixed;
+  left: 320px;
+  bottom: 20px;
+  width: calc(100% - 320px);
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  gap: 20px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-behavior: smooth;
+  cursor: grab;
+}
+
+/* Responsive: Full width on mobile/tablet (up to 1024px) */
+@media (max-width: 1024px) {
+  .place-card-wrapper {
+    left: 0;
+    width: 100%;
+    padding: 8px 16px;
+  }
+}
+
+.place-card-wrapper:active {
+  cursor: grabbing;
+}
+
+.place-card-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.place-card {
+  background: #981ff54d;
+  border-radius: 24px;
+  padding: 16px;
+  width: 200px;
+  min-width: 200px;
+  cursor: pointer;
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  box-shadow: 0px 8px 16px 0px #0000004d;
+  backdrop-filter: blur(40px);
+}
+
+.place-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.place-card-indicator {
+  background: #9b30e0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.place-card-visits {
+  background: #3a205c;
+  border-radius: 20px;
+  padding: 6px 12px;
+  color: white;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.place-card-title {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.place-card-subtitle {
+  color: #d0d0d0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.place-card-bullet {
+  color: #808080;
+  margin: 0 4px;
+}
