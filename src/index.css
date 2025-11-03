@@ -25,3 +25,117 @@ body::-webkit-scrollbar {
 :root {
   --primary-color: #981FF5;
 }
+
+.leaflet-layer {
+  filter: brightness(0.9) sepia(100%) saturate(150%) hue-rotate(200deg);
+}
+
+/* Custom Popup Styles */
+.leaflet-popup-content-wrapper {
+  background-color: #981FF5 !important;
+  border-radius: 12px !important;
+  padding: 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  min-width: 200px;
+}
+
+.leaflet-popup-tip {
+  background-color: #981FF5 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.custom-popup-content {
+  padding: 16px;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.popup-indicator-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #981FF5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-indicator-number {
+  color: #981FF5;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.popup-visits-badge {
+  background-color: #7A19C4;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.popup-body {
+  text-align: left;
+}
+
+.popup-title {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.popup-address {
+  color: #D4B0FF;
+  font-size: 14px;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.popup-category {
+  color: #D4B0FF;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Ensure map controls are visible above map */
+.leaflet-container {
+  position: relative;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1000;
+}
+
+/* Custom map action button container */
+.leaflet-pane {
+  z-index: 400;
+}
+
+.leaflet-map-pane {
+  z-index: 400;
+}
+
+/* Hide Leaflet default zoom controls */
+.leaflet-control-zoom {
+  display: none !important;
+}
+
+/* Hide Leaflet attribution/watermark at the bottom */
+.leaflet-control-attribution {
+  display: none !important;
+}

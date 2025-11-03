@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/new/Sidebar";
 import Header from "../../components/new/Header";
 import ClearResult from "../../components/new/ClearResult";
-import MapActionButton from "../../components/new/MapActionButton";
 import PlaceCardWrapper from "../../components/new/PlaceCardWrapper";
+import LeafletMap from "../../components/new/LeafletMap";
 
 // styles
 import "../../assets/styles/dashboard.css";
@@ -121,20 +121,13 @@ const NewDashboard = () => {
         />
       )}
 
-      <MapActionButton />
-
       {assistantData && assistantData.cards && (
         <PlaceCardWrapper cards={assistantData.cards} />
       )}
 
       {/*------ Map and other functionality will be here ------*/}
       <div className="dashboard-wrapper">
-        <img
-          src={DummyMapImage}
-          alt="background"
-          className="background-image"
-          style={{ width: "100%" }}
-        />
+        <LeafletMap places={assistantData?.cards || []} />
       </div>
     </>
   );

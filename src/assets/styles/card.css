@@ -12,6 +12,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scroll-behavior: smooth;
   cursor: grab;
+  z-index: 1000;
 }
 
 /* Responsive: Full width on mobile/tablet (up to 1024px) */
