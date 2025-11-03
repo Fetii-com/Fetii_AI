@@ -45,6 +45,10 @@ const ClearResult = ({ onClear, isSidebarOpen = false }) => {
     userSelect: "none", // Prevent text selection
     WebkitTapHighlightColor: "transparent", // Remove mobile tap highlight
     touchAction: "manipulation", // Improve touch responsiveness
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.15);",
+    background: "rgba(0, 0, 0, 0.15)",
+    backdropFilter: "blur(15px)",
+    border: "1px solid rgba(255, 255, 255, 0.05)"
   };
 
   return (

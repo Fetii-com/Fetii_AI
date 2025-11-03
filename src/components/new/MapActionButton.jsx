@@ -33,12 +33,14 @@ const MapActionButton = () => {
     flexDirection: "column",
     gap: 10,
     height: "80px",
-    borderRadius: 25,
+    borderRadius: 24,
     backgroundColor: "#007bff",
     color: "#fff",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-    background: "linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)",
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.15);",
+    background: "rgba(0, 0, 0, 0.15)",
     padding: "12px",
+    backdropFilter: "blur(15px)",
+    border: "1px solid rgba(255, 255, 255, 0.05)"
   };
 
   return (
