@@ -93,6 +93,7 @@ body::-webkit-scrollbar {
 .leaflet-popup-content {
   margin: 16px 16px 46px 16px !important;
   min-width: 200px;
+  width: 200px !important;
 }
 
 .leaflet-popup-tip {
@@ -145,6 +146,23 @@ body::-webkit-scrollbar {
   max-height: 80px;
   overflow: auto;
 }
+.popup-body::-webkit-scrollbar {
+  width: 6px;
+}
+.popup-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 3px;
+}
+.popup-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  backdrop-filter: blur(10px);
+}
+.popup-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 .leaflet-container{
   font-family: "Open Runde", sans-serif;
 }

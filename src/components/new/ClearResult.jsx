@@ -22,7 +22,7 @@ const ClearResult = ({ onClear, isSidebarOpen = false }) => {
     position: "fixed",
     width: isMobile ? "100%" : "calc(100% - 400px)",
     left: isMobile ? "0" : "306px",
-    top: "20px",
+    top: "16px",
     display: shouldHide ? "none" : "flex",
     alignItems: "center",
     justifyContent: "center",

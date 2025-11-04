@@ -161,7 +161,7 @@ const Sidebar = ({
               style={{
                 background: contentReachedLogo
                   ? // ? "rgba(0, 0, 0, 0.3)"
-                    "rgba(255, 255, 255, 0.05)"
+                    "transparent"
                   : "transparent",
                 backdropFilter: contentReachedLogo ? "" : "none",
                 WebkitBackdropFilter: contentReachedLogo
