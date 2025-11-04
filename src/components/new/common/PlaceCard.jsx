@@ -14,7 +14,7 @@ const PlaceCard = ({
 }) => {
   return (
     <div
-      className="place-card"
+      className="place-card select-item"
       onClick={onClick}
       style={{ cursor: onClick ? "pointer" : "default" }}
     >

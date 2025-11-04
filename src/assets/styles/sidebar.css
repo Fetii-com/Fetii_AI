@@ -239,6 +239,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
 .sidebar-message-user {
   align-self: flex-end;
   align-items: flex-end;
+  position: relative;
 }
 
 /* User Message - Purple, Right side border radius with arrow */
@@ -250,7 +251,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
 }
 
 /* User Message Arrow Tail - Bottom Left */
-.sidebar-message-user .sidebar-message-content::after {
+/* .sidebar-message-user .sidebar-message-content::after {
   content: "";
   position: absolute;
   bottom: -12px;
@@ -260,12 +261,19 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
   background: var(--primary-color);
   transform: rotate(73deg);
   clip-path: polygon(0 0, 112% 0, 0 100%);
-}
+} */
+ .msg-bottom-wrapper{
+    position: absolute;bottom: -11.56px;height: 22.097px; right: 3.21px;width: 38.793px;
+ }
+ .msg-sub-wrapper{
+  position: absolute;bottom: 10.58%;left: 0;right: 0;top: 0;
+ }
 
 /* Assistant Message - Left Aligned */
 .sidebar-message-assistant {
   align-self: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 /* Assistant Message - Dark Gray, Left side border radius with arrow */
@@ -275,9 +283,12 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
   border-radius: 20px;
   position: relative;
 }
+.left-msg-arrow{
+    left: 3.21px;
+}
 
 /* Assistant Message Arrow Tail - Bottom Right */
-.sidebar-message-assistant .sidebar-message-content::after {
+/* .sidebar-message-assistant .sidebar-message-content::after {
     content: "";
     position: absolute;
     bottom: -16px;
@@ -288,7 +299,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
     transform: rotate(-90deg);
     clip-path: polygon(100% 0, 100% 100%, 0 0);
     border-radius: 5px 0 0 0;
-}
+} */
 
 /* Chat Bubble Loader */
 .sidebar-message-loading {
