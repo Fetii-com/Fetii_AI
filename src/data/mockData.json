@@ -1,6 +1,6 @@
 [
   {
-    "message": "Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:\n\n\n\n1. The Aquarium (East 6th Street) - 64 Trips\n\n2. Wiggle Room (Nueces Street) - 52 Trips\n\n3. Shakespeare's (East 6th Street) - 45 Trips\n\n4. Mayfair Austin (West 6th Street) - 43 Trips\n\n5. Latchkey (East 6th Street) - 32 Visits",
+    "message": "Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:\n\n1. The Aquarium (East 6th Street) - 64 Trips\n\n2. Wiggle Room (Nueces Street) - 52 Trips\n\n3. Shakespeare's (East 6th Street) - 45 Trips\n\n4. Mayfair Austin (West 6th Street) - 43 Trips\n\n5. Latchkey (East 6th Street) - 32 Visits",
     "cards": [
       {
         "indicator": 1,
@@ -50,7 +50,7 @@
     ]
   },
   {
-    "message": "Here are the top 5 most popular drop-off locations in Austin based on Fetii trip data:\n\n\n\n1. The Aquarium on 6th - 403 E 6th St, Austin, TX 78701 (854 trips)\n\n2. Wiggle Room - 612 Nueces St, Austin, TX 78701 (612 trips)\n\n3. Buford's - 700 W 6th St, Austin, TX 78701 (505 trips)\n\n4. Zilker Metropolitan Park - Zilker Metropolitan Park, Austin, TX 78746 (406 trips)\n\n5. Latchkey - 1308 E 6th St, Austin, TX 78702 (400 trips)\n\n\n\nThe data shows a strong preference for 6th Street venues and downtown locations, with The Aquarium on 6th leading by a significant margin. Interestingly, Zilker Park also makes the top 5, showing that outdoor destinations are popular alongside the nightlife spots.",
+    "message": "Here are the top 5 most popular drop-off locations in Austin based on Fetii trip data:\n\n1. The Aquarium on 6th - 403 E 6th St, Austin, TX 78701 (854 trips)\n\n2. Wiggle Room - 612 Nueces St, Austin, TX 78701 (612 trips)\n\n3. Buford's - 700 W 6th St, Austin, TX 78701 (505 trips)\n\n4. Zilker Metropolitan Park - Zilker Metropolitan Park, Austin, TX 78746 (406 trips)\n\n5. Latchkey - 1308 E 6th St, Austin, TX 78702 (400 trips)\n\nThe data shows a strong preference for 6th Street venues and downtown locations, with The Aquarium on 6th leading by a significant margin. Interestingly, Zilker Park also makes the top 5, showing that outdoor destinations are popular alongside the nightlife spots.",
     "cards": [
       {
         "indicator": 1,
@@ -100,7 +100,7 @@
     ]
   },
   {
-    "message": "Here are the busiest pickup locations based on trip volume:\n\n\n\n1. Nueces St - 901 trips\n\n2. W 6th St & E 6th St - 789 trips\n\n3. E 6th St - 615 trips\n\n4. Rio Grande St - 586 trips\n\n5. S Lamar Blvd - 568 trips\n\n6. W 6th St - 448 trips\n\n7. W 23rd St - 407 trips\n\n8. E Cesar Chavez St - 394 trips\n\n9. W 22nd St - 384 trips\n\n10. San Antonio St - 372 trips\n\n\n\nThe data shows heavy pickup activity concentrated around downtown Austin, particularly along the 6th Street corridor and major thoroughfares like Nueces Street and Rio Grande Street. The UT campus area (W 22nd/23rd Streets) and popular districts like South Lamar also see significant rideshare pickup volume.",
+    "message": "Here are the busiest pickup locations based on trip volume:\n\n1. Nueces St - 901 trips\n\n2. W 6th St & E 6th St - 789 trips\n\n3. E 6th St - 615 trips\n\n4. Rio Grande St - 586 trips\n\n5. S Lamar Blvd - 568 trips\n\n6. W 6th St - 448 trips\n\n7. W 23rd St - 407 trips\n\n8. E Cesar Chavez St - 394 trips\n\n9. W 22nd St - 384 trips\n\n10. San Antonio St - 372 trips\n\nThe data shows heavy pickup activity concentrated around downtown Austin, particularly along the 6th Street corridor and major thoroughfares like Nueces Street and Rio Grande Street. The UT campus area (W 22nd/23rd Streets) and popular districts like South Lamar also see significant rideshare pickup volume.",
     "cards": [
       {
         "indicator": 1,
@@ -193,9 +193,5 @@
         "lng": -97.7388
       }
     ]
-  },
-  {
-    "message": "The peak hours for rides show a clear nightlife pattern:\n\n\n\nTop Peak Hours:\n\n1. 10 PM (22:00) - 3,978 trips\n\n2. 11 PM (23:00) - 3,575 trips\n\n3. 9 PM (21:00) - 2,730 trips\n\n4. 7 PM (19:00) - 1,918 trips\n\n5. Midnight (00:00) - 1,888 trips\n\n\n\nThe data reveals that 10-11 PM is the absolute busiest time for rides, with over 7,500 trips during these two hours alone. Evening hours from 7-11 PM account for the majority of ride activity, followed by late-night trips around midnight and 1 AM.\n\n\n\nActivity drops significantly after 2 AM and remains very low during early morning hours (3-8 AM), with the quietest period being 5-7 AM when only a handful of trips occur.",
-    "cards": []
   }
 ]

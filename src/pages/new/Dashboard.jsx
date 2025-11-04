@@ -122,7 +122,7 @@ const NewDashboard = () => {
 
       setIsLoading(false);
       timeoutRef.current = null;
-    }, 15000); // 15 seconds
+    }, 3000); // 15 seconds
   };
 
   /* Clears assistant data and resets to initial state */
