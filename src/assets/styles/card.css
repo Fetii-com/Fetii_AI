@@ -39,8 +39,8 @@
   min-width: 200px;
   cursor: pointer;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(40px);
   position: relative;
 }
 .place-card::before{
@@ -51,10 +51,16 @@
   top: 0;
   left: 0;
   border-radius: 24px;
-  /* border: 1px solid rgba(255, 255, 255, 0.10); */
-  background: linear-gradient(0deg, rgba(152, 31, 245, 0.30) 0%, rgba(152, 31, 245, 0.30) 100%), rgba(0, 0, 0, 0.10);
+  background: #0000001A;  
   mix-blend-mode: darken;
-  z-index: -1;
+  z-index: -1;  
+}
+.place-card.select-item{
+   border: 1px solid;
+   border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+.place-card.select-item::before{
+  background: linear-gradient(0deg, rgba(152, 31, 245, 0.30) 0%, rgba(152, 31, 245, 0.30) 100%), rgba(0, 0, 0, 0.10);
 }
 
 .place-card-header {
@@ -64,8 +70,7 @@
   margin-bottom: 8px;
 }
 
-.place-card-indicator {
-  background: #9b30e0;
+.place-card-indicator {  
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -74,7 +79,9 @@
   align-items: center;
   color: white;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.00) 100%), linear-gradient(0deg, var(--Purple-1, #981FF5) 0%, var(--Purple-1, #981FF5) 100%), #D9D9D9;
+  background-blend-mode: normal;
 }
 
 .place-card-visits {

@@ -42,8 +42,11 @@ const createCustomIcon = (indicator) => {
         align-items: center;
         justify-content: center;
         color: white;
-        font-weight: bold;
+        font-weight: 500;
+        font-family: 'Open Runde', sans-serif;
         font-size: 13px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.00) 100%), linear-gradient(0deg, var(--Purple-1, #981FF5) 0%, var(--Purple-1, #981FF5) 100%), #D9D9D9;
+        background-blend-mode: normal;
       ">${indicator}</div>
     `,
     iconSize: [size, size],

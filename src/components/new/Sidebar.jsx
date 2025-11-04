@@ -190,6 +190,25 @@ const Sidebar = ({
                         {assistantData.userMessage ||
                           "What are the top 5 drop-off locations?"}
                       </div>
+                       <div className="msg-bottom-wrapper" data-name="Tail">
+                          <div 
+                            className="msg-sub-wrapper" 
+                            style={{ "--fill-0": "rgba(152, 31, 245, 1)" }}
+                          >
+                            <svg 
+                              className="block size-full" 
+                              fill="none" 
+                              preserveAspectRatio="none" 
+                              viewBox="0 0 39 20"
+                            >
+                              <path 
+                                d="M23.6704 18.1713C19.5945 14.8399 13.2705 10.5968 7.5 10.5968H0V6.09682H30.5C30.5 6.09682 39.4856 -2.15552 38.75 0.541693C37.25 6.0417 32.5 9.08578 28.5 10.5968C26.076 11.5125 25.8032 14.0733 26.2028 16.5466C26.4608 18.1436 26.5898 18.9421 26.5824 19.0328C26.5306 19.6678 26.0884 19.9227 25.513 19.6492C25.4307 19.6101 24.844 19.1305 23.6704 18.1714L23.6704 18.1713Z" 
+                                fill="var(--fill-0, #981FF5)" 
+                                id="Tail"
+                              />
+                            </svg>
+                          </div>
+                       </div>
                     </div>
 
                     {/* Assistant Message */}
@@ -197,6 +216,22 @@ const Sidebar = ({
                       <div className="sidebar-message-content">
                         {assistantData.message}
                       </div>
+                      <div className="msg-bottom-wrapper left-msg-arrow" data-name="Tail">
+                          <div 
+                            className="msg-sub-wrapper" 
+                            style={{ "--fill-0": "rgba(152, 31, 245, 1)" }}
+                          >
+                             <svg width="39" height="20" viewBox="0 0 39 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M15.1226 18.1713C19.1985 14.8399 25.5225 10.5968 31.293 10.5968H38.793V6.09682H8.29297C8.29297 6.09682 -0.692635 -2.15552 0.0429688 0.541693C1.54297 6.0417 6.29297 9.08578 10.293 10.5968C12.717 11.5125 12.9898 14.0733 12.5902 16.5466C12.3322 18.1436 12.2032 18.9421 12.2106 19.0328C12.2624 19.6678 12.7045 19.9227 13.28 19.6492C13.3622 19.6101 13.949 19.1305 15.1225 18.1714L15.1226 18.1713Z" fill="url(#paint0_linear_2767_26807)"/>
+                              <defs>
+                              <linearGradient id="paint0_linear_2767_26807" x1="38.5002" y1="9.04169" x2="0.500244" y2="0.0416877" gradientUnits="userSpaceOnUse">
+                              <stop stop-color="#48485b"/>
+                              <stop offset="1" stop-color="#48485b"/>
+                              </linearGradient>
+                              </defs>
+                            </svg>
+                          </div>                                                    
+                       </div>
                     </div>
                   </>
                 )}
