@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // components
 import Sidebar from "../../components/new/Sidebar";
@@ -6,12 +6,10 @@ import Header from "../../components/new/Header";
 import ClearResult from "../../components/new/ClearResult";
 import PlaceCardWrapper from "../../components/new/PlaceCardWrapper";
 import LeafletMap from "../../components/new/LeafletMap";
+import LoadingUI from "../../components/new/LoadingUI";
 
 // styles
 import "../../assets/styles/dashboard.css";
-
-// images
-import DummyMapImage from "../../assets/images/dummy-map.png";
 
 /* Desktop breakpoint width (in pixels) */
 const DESKTOP_BREAKPOINT = 1024;
@@ -21,6 +19,8 @@ const NewDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [assistantData, setAssistantData] = useState(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const timeoutRef = useRef(null);
 
   /* Handle window resize - on desktop, sidebar should always be open - Automatically opens sidebar on desktop screens (>1024px) */
   useEffect(() => {
@@ -47,13 +47,25 @@ const NewDashboard = () => {
 
   /* Handles API call when suggestion is clicked or message is sent */
   const handleAssistantCall = async (message) => {
-    try {
-      // TODO: Replace with actual API call
-      // For now, simulating API response with sample data
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Set loading state
+    setIsLoading(true);
+    setAssistantData({
+      userMessage: message,
+      isLoading: true,
+    });
+
+    // Set 15 second interval before showing mock response
+    timeoutRef.current = setTimeout(() => {
       const mockResponse = {
         userMessage: message,
         message:
           "Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:",
+        isLoading: false,
         cards: [
           {
             indicator: 1,
@@ -104,16 +116,31 @@ const NewDashboard = () => {
       };
 
       setAssistantData(mockResponse);
-    } catch (error) {
-      console.error("Error calling assistant API:", error);
-    }
+      setIsLoading(false);
+      timeoutRef.current = null;
+    }, 15000); // 15 seconds
   };
 
   /* Clears assistant data and resets to initial state */
   const handleClearResults = () => {
+    // Clear any pending timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setAssistantData(null);
     setSelectedMarkerId(null);
+    setIsLoading(false);
   };
+
+  /* Cleanup timeout on unmount */
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -126,7 +153,7 @@ const NewDashboard = () => {
         assistantData={assistantData}
       />
 
-      {assistantData && (
+      {assistantData && assistantData.cards && (
         <ClearResult
           onClear={handleClearResults}
           isSidebarOpen={isSidebarOpen}
@@ -141,7 +168,7 @@ const NewDashboard = () => {
         />
       )}
 
-      {/*------ Map and other functionality will be here ------*/}
+      {/*------ Map Functionality ------*/}
       <div className="dashboard-wrapper">
         <LeafletMap
           places={assistantData?.cards || []}
@@ -150,6 +177,8 @@ const NewDashboard = () => {
           onMarkerSelect={setSelectedMarkerId}
         />
       </div>
+
+      <LoadingUI isVisible={isLoading} />
     </>
   );
 };

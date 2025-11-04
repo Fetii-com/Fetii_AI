@@ -95,20 +95,18 @@ const Sidebar = ({
     setInputValue(e.target.value);
   };
 
-  // Determine if send button should be active based on input
-  const isSendActive = inputValue.trim().length > 0;
+  // Determine if send button should be active based on input and not loading
+  const isSendActive =
+    inputValue.trim().length > 0 && !assistantData?.isLoading;
 
-  /* Handles suggestion click - adds suggestion to textarea and calls API */
+  /* Handles suggestion click - just sets the value in textarea */
   const handleSuggestionClick = (suggestion) => {
     setInputValue(suggestion);
-    if (onAssistantCall) {
-      onAssistantCall(suggestion);
-    }
   };
 
   /* Handles send button click */
   const handleSendClick = () => {
-    if (inputValue.trim() && onAssistantCall) {
+    if (inputValue.trim() && onAssistantCall && !assistantData?.isLoading) {
       onAssistantCall(inputValue.trim());
       setInputValue(""); // Clear input after sending
     }
@@ -164,14 +162,12 @@ const Sidebar = ({
                       marginBottom:
                         index === quickSuggestions.length - 1 ? "12px" : 0,
                     }}
+                    onClick={() => handleSuggestionClick(suggestion)}
                   >
                     <div className="sidebar-quick-suggestion-text">
                       {suggestion}
                     </div>
-                    <button
-                      className="sidebar-quick-suggestion-button"
-                      onClick={() => handleSuggestionClick(suggestion)}
-                    >
+                    <button className="sidebar-quick-suggestion-button">
                       <img
                         src={LeftDownIcon}
                         alt="Send"
@@ -192,12 +188,24 @@ const Sidebar = ({
                       </div>
                     </div>
 
-                    {/* Assistant Message */}
-                    <div className="sidebar-message sidebar-message-assistant">
-                      <div className="sidebar-message-content">
-                        {assistantData.message}
+                    {/* Assistant Message or Loading */}
+                    {assistantData.isLoading ? (
+                      <div className="sidebar-message sidebar-message-assistant">
+                        <div className="sidebar-message-content sidebar-message-loading">
+                          <div className="sidebar-chat-loader">
+                            <div className="sidebar-chat-loader-dot"></div>
+                            <div className="sidebar-chat-loader-dot"></div>
+                            <div className="sidebar-chat-loader-dot"></div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="sidebar-message sidebar-message-assistant">
+                        <div className="sidebar-message-content">
+                          {assistantData.message}
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -224,7 +232,11 @@ const Sidebar = ({
                   disabled={!isSendActive}
                 >
                   <img
-                    src={isSendActive ? ActiveSendIcon : InactiveSendIcon}
+                    src={
+                      isSendActive && !assistantData?.isLoading
+                        ? ActiveSendIcon
+                        : InactiveSendIcon
+                    }
                     alt="Send"
                     className="sidebar-send-icon"
                   />

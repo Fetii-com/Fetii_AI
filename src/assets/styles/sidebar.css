@@ -290,6 +290,57 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
     border-radius: 5px 0 0 0;
 }
 
+/* Chat Bubble Loader */
+.sidebar-message-loading {
+  padding: 18px 22px !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Hide arrow tail when loading */
+.sidebar-message-loading::after {
+  display: none !important;
+}
+
+.sidebar-chat-loader {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.sidebar-chat-loader-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  animation: sidebar-chat-bounce 1.4s infinite ease-in-out both;
+}
+
+.sidebar-chat-loader-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.sidebar-chat-loader-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.sidebar-chat-loader-dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes sidebar-chat-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Message List Styles */
 .sidebar-message-list {
   margin: 12px 0 0 0;
