@@ -63,8 +63,12 @@ const NewDashboard = () => {
     timeoutRef.current = setTimeout(() => {
       const mockResponse = {
         userMessage: message,
-        message:
-          "Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:",
+        message: `Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:
+The Aquarium (East 6th Street) 64 Trips
+Wiggle Room (Nueces Street) 52 Trips
+Shakespeare’s (East 6th Street) 45 Trips
+Mayfair Austin (West 6th Street) 43 Trips
+Latchkey (East 6th Street) 32 Visits`,
         isLoading: false,
         cards: [
           {
