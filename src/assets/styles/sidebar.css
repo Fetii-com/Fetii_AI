@@ -71,6 +71,14 @@
   border-radius: 24px 24px 0 0;
   z-index: 10;
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.sidebar-logo-container.scrolled {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .sidebar-logo-container-scroll{
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 9.6%, #000000 13.66%, #000000 88.31%, rgb(0 0 0) 94.87%);
@@ -101,10 +109,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;  
-  padding-top: 60px; /* Space for logo to always be visible */
+  padding-top: 95px; /* Space for logo to always be visible */
   overflow: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  padding-right: 2px;
 }
 
 .sidebar-content-section::-webkit-scrollbar {
@@ -123,6 +132,11 @@
   color: #ffffffcc;
   font-size: 13px;
   cursor: pointer;
+  margin-bottom: 0;
+}
+
+.sidebar-quick-suggestion-item.last-suggestion {
+  margin-bottom: 12px;
 }
 
 /* Sidebar Quick Suggestion Text */
@@ -186,6 +200,18 @@
   padding-top: 2px;
   padding-bottom: 2px;
   caret-color: var(--primary-color);
+  /* Hide scrollbar but keep scrolling functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari, Opera) */
+.sidebar-textarea-field::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-textarea-field.hidden {
+  display: none;
 }
 
 /* Scrollbar styles for textarea */
@@ -273,6 +299,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
  }
  .msg-sub-wrapper{
   position: absolute;bottom: 10.58%;left: 0;right: 0;top: 0;
+  --fill-0: rgba(152, 31, 245, 1);
  }
 
 /* Assistant Message - Left Aligned */
@@ -290,6 +317,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
   position: relative;
   white-space: pre-line;
 }
+
 .left-msg-arrow{
     left: 3.21px;
 }

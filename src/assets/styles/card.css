@@ -13,7 +13,13 @@
   -ms-overflow-style: none; /* IE and Edge */
   scroll-behavior: smooth;
   cursor: grab;
+  user-select: auto;
   z-index: 996;
+}
+
+.place-card-wrapper.grabbing {
+  cursor: grabbing;
+  user-select: none;
 }
 
 /* Responsive: Full width on mobile/tablet (up to 1024px) */
@@ -23,10 +29,6 @@
     width: 100%;
     padding: 8px 16px;
   }
-}
-
-.place-card-wrapper:active {
-  cursor: grabbing;
 }
 
 .place-card-wrapper::-webkit-scrollbar {
@@ -40,28 +42,41 @@
   min-width: 200px;
   cursor: pointer;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   position: relative;
 }
-.place-card::before{
-  content: '';
+
+.place-card.no-click {
+  cursor: default;
+}
+.place-card::before {
+  content: "";
   position: absolute;
   height: 100%;
   width: 100%;
   top: 0;
   left: 0;
   border-radius: 24px;
-  background: #0000001A;  
+  background: #0000001a;
   mix-blend-mode: darken;
-  z-index: -1;  
+  z-index: -1;
 }
-.place-card.select-item{
-   border: 1px solid;
-   border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+.place-card.select-item {
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
 }
-.place-card.select-item::before{
-  background: linear-gradient(0deg, rgba(152, 31, 245, 0.30) 0%, rgba(152, 31, 245, 0.30) 100%), rgba(0, 0, 0, 0.10);
+.place-card.select-item::before {
+  background: linear-gradient(
+      0deg,
+      rgba(152, 31, 245, 0.3) 0%,
+      rgba(152, 31, 245, 0.3) 100%
+    ),
+    rgba(0, 0, 0, 0.1);
 }
 
 .place-card-header {
@@ -71,7 +86,7 @@
   margin-bottom: 8px;
 }
 
-.place-card-indicator {  
+.place-card-indicator {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -81,12 +96,22 @@
   color: white;
   font-weight: 600;
   font-size: 13px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.00) 100%), linear-gradient(0deg, var(--Purple-1, #981FF5) 0%, var(--Purple-1, #981FF5) 100%), #D9D9D9;
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(
+      0deg,
+      var(--Purple-1, #981ff5) 0%,
+      var(--Purple-1, #981ff5) 100%
+    ),
+    #d9d9d9;
   background-blend-mode: normal;
 }
 
 .place-card-visits {
-  background: rgba(0, 0, 0, 0.20);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   padding: 6px 12px;
   color: rgba(255, 255, 255, 0.6);
@@ -95,7 +120,7 @@
 }
 
 .place-card-title {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 4px;
@@ -103,7 +128,7 @@
 }
 
 .place-card-subtitle {
-  color: rgba(255,255, 255, 0.40);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 12px;
   font-weight: 400;
   line-height: 1.5;

@@ -23,7 +23,6 @@ const Sidebar = ({
   conversationHistory = [],
   isLoading = false,
   onAssistantMessageClick = null,
-  selectedMessageId = null,
 }) => {
   const textareaRef = useRef(null);
   const contentSectionRef = useRef(null);
@@ -53,10 +52,10 @@ const Sidebar = ({
           contentSection.scrollTop = contentSection.scrollHeight;
         });
       };
-      
+
       // Small delay to ensure DOM has updated with new content
       const timeoutId = setTimeout(scrollToBottom, 50);
-      
+
       return () => clearTimeout(timeoutId);
     }
   }, [conversationHistory, isLoading]);
@@ -118,8 +117,7 @@ const Sidebar = ({
   };
 
   // Determine if send button should be active based on input and not loading
-  const isSendActive =
-    inputValue.trim().length > 0 && !isLoading;
+  const isSendActive = inputValue.trim().length > 0 && !isLoading;
 
   /* Handles suggestion click - just sets the value in textarea */
   const handleSuggestionClick = (suggestion) => {
@@ -146,7 +144,7 @@ const Sidebar = ({
           isOpen ? "sidebar-open" : "sidebar-closed"
         }`}
       >
-        <div class="gradient-blur">
+        <div className="gradient-blur">
           <div></div>
           <div></div>
           <div></div>
@@ -157,33 +155,24 @@ const Sidebar = ({
         <div className="sidebar-wrapper">
           <div className="sidebar-wrapper-inner">
             <div
-              className="sidebar-logo-container"
-              style={{
-                background: contentReachedLogo
-                  ? // ? "rgba(0, 0, 0, 0.3)"
-                    "transparent"
-                  : "transparent",
-                backdropFilter: contentReachedLogo ? "" : "none",
-                WebkitBackdropFilter: contentReachedLogo
-                  ? "blur(10px)"
-                  : "none",
-              }}
+              className={`sidebar-logo-container ${
+                contentReachedLogo ? "scrolled" : ""
+              }`}
             >
               <img src={LogoIcon} alt="Logo" />
             </div>
 
-            <div className="sidebar-content-container">
+            <div className="sidebar-content-container sidebar-logo-container-scroll">
               {/*===== Suggestions =====*/}
               <div ref={contentSectionRef} className="sidebar-content-section">
                 {quickSuggestions.map((suggestion, index) => (
                   <div
                     key={index}
-                    className="sidebar-quick-suggestion-item"
-                    style={{
-                      // Add bottom margin only to last item
-                      marginBottom:
-                        index === quickSuggestions.length - 1 ? "12px" : 0,
-                    }}
+                    className={`sidebar-quick-suggestion-item ${
+                      index === quickSuggestions.length - 1
+                        ? "last-suggestion"
+                        : ""
+                    }`}
                     onClick={() => handleSuggestionClick(suggestion)}
                   >
                     <div className="sidebar-quick-suggestion-text">
@@ -202,17 +191,14 @@ const Sidebar = ({
                 {/* Show conversation history */}
                 {conversationHistory.map((msg) => (
                   <React.Fragment key={msg.id}>
-                    {msg.type === 'user' ? (
+                    {msg.type === "user" ? (
                       /* User Message */
                       <div className="sidebar-message sidebar-message-user">
                         <div className="sidebar-message-content seachable-text">
                           {msg.message}
                         </div>
                         <div className="msg-bottom-wrapper" data-name="Tail">
-                          <div
-                            className="msg-sub-wrapper"
-                            style={{ "--fill-0": "rgba(152, 31, 245, 1)" }}
-                          >
+                          <div className="msg-sub-wrapper">
                             <svg
                               className="block size-full"
                               fill="none"
@@ -228,70 +214,66 @@ const Sidebar = ({
                           </div>
                         </div>
                       </div>
+                    ) : /* Assistant Message or Loading */
+                    msg.isLoading ? (
+                      <div className="sidebar-message sidebar-message-assistant">
+                        <div className="sidebar-message-content sidebar-message-loading">
+                          <div className="sidebar-chat-loader">
+                            <div className="sidebar-chat-loader-dot"></div>
+                            <div className="sidebar-chat-loader-dot"></div>
+                            <div className="sidebar-chat-loader-dot"></div>
+                          </div>
+                        </div>
+                      </div>
                     ) : (
-                      /* Assistant Message or Loading */
-                      msg.isLoading ? (
-                        <div className="sidebar-message sidebar-message-assistant">
-                          <div className="sidebar-message-content sidebar-message-loading">
-                            <div className="sidebar-chat-loader">
-                              <div className="sidebar-chat-loader-dot"></div>
-                              <div className="sidebar-chat-loader-dot"></div>
-                              <div className="sidebar-chat-loader-dot"></div>
-                            </div>
-                          </div>
+                      <div
+                        className={`sidebar-message sidebar-message-assistant`}
+                        onClick={() => {
+                          if (
+                            msg.cards &&
+                            msg.cards.length > 0 &&
+                            onAssistantMessageClick
+                          ) {
+                            onAssistantMessageClick(msg.id);
+                          }
+                        }}
+                      >
+                        <div className="sidebar-message-content">
+                          {msg.message}
                         </div>
-                      ) : (
-                        <div 
-                          className={`sidebar-message sidebar-message-assistant ${msg.cards && msg.cards.length > 0 ? 'sidebar-message-clickable' : ''} ${selectedMessageId === msg.id ? 'sidebar-message-selected' : ''}`}
-                          onClick={() => {
-                            if (msg.cards && msg.cards.length > 0 && onAssistantMessageClick) {
-                              onAssistantMessageClick(msg.id);
-                            }
-                          }}
-                          style={{
-                            cursor: msg.cards && msg.cards.length > 0 ? 'pointer' : 'default',
-                          }}
+                        <div
+                          className="msg-bottom-wrapper left-msg-arrow"
+                          data-name="Tail"
                         >
-                          <div className="sidebar-message-content">
-                            {msg.message}
-                          </div>
-                          <div
-                            className="msg-bottom-wrapper left-msg-arrow"
-                            data-name="Tail"
-                          >
-                            <div
-                              className="msg-sub-wrapper"
-                              style={{ "--fill-0": "rgba(152, 31, 245, 1)" }}
+                          <div className="msg-sub-wrapper">
+                            <svg
+                              width="39"
+                              height="20"
+                              viewBox="0 0 39 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <svg
-                                width="39"
-                                height="20"
-                                viewBox="0 0 39 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M15.1226 18.1713C19.1985 14.8399 25.5225 10.5968 31.293 10.5968H38.793V6.09682H8.29297C8.29297 6.09682 -0.692635 -2.15552 0.0429688 0.541693C1.54297 6.0417 6.29297 9.08578 10.293 10.5968C12.717 11.5125 12.9898 14.0733 12.5902 16.5466C12.3322 18.1436 12.2032 18.9421 12.2106 19.0328C12.2624 19.6678 12.7045 19.9227 13.28 19.6492C13.3622 19.6101 13.949 19.1305 15.1225 18.1714L15.1226 18.1713Z"
-                                  fill="url(#paint0_linear_2767_26807)"
-                                />
-                                <defs>
-                                  <linearGradient
-                                    id="paint0_linear_2767_26807"
-                                    x1="38.5002"
-                                    y1="9.04169"
-                                    x2="0.500244"
-                                    y2="0.0416877"
-                                    gradientUnits="userSpaceOnUse"
-                                  >
-                                    <stop stop-color="#48485b" />
-                                    <stop offset="1" stop-color="#48485b" />
-                                  </linearGradient>
-                                </defs>
-                              </svg>
-                            </div>
+                              <path
+                                d="M15.1226 18.1713C19.1985 14.8399 25.5225 10.5968 31.293 10.5968H38.793V6.09682H8.29297C8.29297 6.09682 -0.692635 -2.15552 0.0429688 0.541693C1.54297 6.0417 6.29297 9.08578 10.293 10.5968C12.717 11.5125 12.9898 14.0733 12.5902 16.5466C12.3322 18.1436 12.2032 18.9421 12.2106 19.0328C12.2624 19.6678 12.7045 19.9227 13.28 19.6492C13.3622 19.6101 13.949 19.1305 15.1225 18.1714L15.1226 18.1713Z"
+                                fill="url(#paint0_linear_2767_26807)"
+                              />
+                              <defs>
+                                <linearGradient
+                                  id="paint0_linear_2767_26807"
+                                  x1="38.5002"
+                                  y1="9.04169"
+                                  x2="0.500244"
+                                  y2="0.0416877"
+                                  gradientUnits="userSpaceOnUse"
+                                >
+                                  <stop stopColor="#48485b" />
+                                  <stop offset="1" stopColor="#48485b" />
+                                </linearGradient>
+                              </defs>
+                            </svg>
                           </div>
                         </div>
-                      )
+                      </div>
                     )}
                   </React.Fragment>
                 ))}

@@ -25,7 +25,6 @@ const PlaceCard = ({
             : "select-item"
         }`}
       onClick={onClick}
-      style={{ cursor: onClick ? "pointer" : "default" }}
     >
       {/* Top row with indicator and visits */}
       <div className="place-card-header">

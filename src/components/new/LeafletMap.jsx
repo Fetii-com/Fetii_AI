@@ -9,6 +9,9 @@ import {
 import L from "leaflet";
 import MapActionButton from "./MapActionButton";
 
+// styles
+import "../../assets/styles/leaflet-map.css";
+
 // Animation duration constants (in milliseconds) - synced across components
 export const ANIMATION_DURATION = 800; // 0.8 seconds for map pan and card scroll
 export const POPUP_DELAY = 700; // Start opening popup during animation for synchronized feel (70% through animation)
@@ -161,7 +164,7 @@ const LeafletMap = ({ places = [], selectedMarkerId = null, onMarkerDeselect = n
   }, [places]);
 
   return (
-    <div style={{ height: "100vh", width: "100%", position: "relative" }}>
+    <div className="leaflet-map-container">
       <MapContainer
         center={center}
         zoom={zoom}

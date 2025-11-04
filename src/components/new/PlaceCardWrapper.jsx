@@ -23,36 +23,33 @@ const PlaceCardWrapper = ({
   // Use cards prop if available, otherwise use empty array
   const places = cards.length > 0 ? cards : [];
 
-  /* Helper function to reset cursor and user selection styles - Cursor style to apply ("grab" or "auto") */
-  const resetStyles = (cursor = "grab") => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.style.cursor = cursor;
-      container.style.userSelect = cursor === "grab" ? "auto" : "none";
-    }
-  };
-
   /* Handles mouse down event to start dragging */
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setHasMoved(false);
     setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
     setScrollLeft(scrollContainerRef.current.scrollLeft);
-    resetStyles("grabbing");
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.classList.add('grabbing');
+    }
   };
 
   /* Handles mouse leave event to stop dragging */
   const handleMouseLeave = () => {
     setIsDragging(false);
     setHasMoved(false);
-    resetStyles();
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.classList.remove('grabbing');
+    }
   };
 
   /* Handles mouse up event to stop dragging */
   const handleMouseUp = () => {
     setIsDragging(false);
     setHasMoved(false);
-    resetStyles();
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.classList.remove('grabbing');
+    }
   };
 
   /* Handles mouse move event for drag scrolling */
@@ -78,15 +75,6 @@ const PlaceCardWrapper = ({
     }
   };
 
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.style.cursor = "grab";
-      return () => {
-        container.style.cursor = "auto";
-      };
-    }
-  }, []);
 
   // Scroll to selected card when selectedCardIndex changes
   useEffect(() => {
