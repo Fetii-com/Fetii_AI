@@ -8,13 +8,22 @@ const PlaceCard = ({
   indicator,
   visits,
   title,
+  selectedCardIndex,
+  currnetIndex,
   address,
   category,
   onClick,
 }) => {
   return (
     <div
-      className="place-card select-item"
+      className={`place-card  
+        ${
+          selectedCardIndex !== null
+            ? selectedCardIndex === currnetIndex
+              ? "select-item"
+              : ""
+            : "select-item"
+        }`}
       onClick={onClick}
       style={{ cursor: onClick ? "pointer" : "default" }}
     >

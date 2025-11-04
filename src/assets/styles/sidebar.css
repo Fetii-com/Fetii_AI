@@ -283,6 +283,7 @@ textarea.sidebar-textarea-field:-ms-input-placeholder {
   color: #ffffff;
   border-radius: 20px;
   position: relative;
+  white-space: pre-line;
 }
 .left-msg-arrow{
     left: 3.21px;

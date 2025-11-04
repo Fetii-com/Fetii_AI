@@ -164,6 +164,8 @@ const PlaceCardWrapper = ({
             indicator={place.indicator}
             visits={place.visits}
             title={place.title}
+            selectedCardIndex={selectedCardIndex}
+            currnetIndex={index}
             address={place.address}
             category={place.category}
             onClick={() => handleCardClick(index)}

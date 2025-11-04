@@ -30,7 +30,7 @@ const MapActionButton = () => {
         aria-label="Zoom in"
         type="button"
       >
-        <img src={PlusIcon} alt="Plus Icon" width="20" height="20" />
+        <img src={PlusIcon} alt="Plus Icon" width="15" height="15" />
       </button>
       <button
         className="map-action-button"
@@ -38,7 +38,7 @@ const MapActionButton = () => {
         aria-label="Zoom out"
         type="button"
       >
-        <img src={MinusIcon} alt="Minus Icon" width="20" height="20" />
+        <img src={MinusIcon} alt="Minus Icon" width="15" height="15" />
       </button>
     </div>
   );

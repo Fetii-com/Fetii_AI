@@ -219,14 +219,6 @@ const LeafletMap = ({ places = [], selectedMarkerId = null, onMarkerDeselect = n
                   onMarkerSelect(index);
                 }
               },
-              mouseover: (e) => {
-                // Close all other popups first
-                Object.values(markerRefs.current).forEach((marker, idx) => {
-                  if (marker && idx !== index) {
-                    marker.closePopup();
-                  }
-                });
-              },
             }}
           >
             <Popup closeButton={false} autoClose={false} closeOnClick={false}>

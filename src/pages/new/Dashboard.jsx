@@ -8,6 +8,9 @@ import PlaceCardWrapper from "../../components/new/PlaceCardWrapper";
 import LeafletMap from "../../components/new/LeafletMap";
 import LoadingUI from "../../components/new/LoadingUI";
 
+// data
+import mockData from "../../data/mockData.json";
+
 // styles
 import "../../assets/styles/dashboard.css";
 
@@ -17,9 +20,10 @@ const DESKTOP_BREAKPOINT = 1024;
 /* NewDashboard Component */
 const NewDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [assistantData, setAssistantData] = useState(null);
+  const [conversationHistory, setConversationHistory] = useState([]);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMessageId, setSelectedMessageId] = useState(null); // Track which assistant message is selected
   const timeoutRef = useRef(null);
 
   /* Handle window resize - on desktop, sidebar should always be open - Automatically opens sidebar on desktop screens (>1024px) */
@@ -52,74 +56,70 @@ const NewDashboard = () => {
       clearTimeout(timeoutRef.current);
     }
 
-    // Set loading state
+    // Clear previous results and reset selected marker when loading starts
+    setSelectedMarkerId(null);
+    setSelectedMessageId(null); // Clear selected message when new query starts
     setIsLoading(true);
-    setAssistantData({
-      userMessage: message,
+
+    // Add user message to conversation history
+    const userMessage = {
+      id: Date.now(),
+      type: 'user',
+      message: message,
+      timestamp: new Date(),
+    };
+
+    setConversationHistory(prev => [...prev, userMessage]);
+
+    // Add loading message
+    const loadingMessageId = Date.now() + 1;
+    const loadingMessage = {
+      id: loadingMessageId,
+      type: 'assistant',
+      message: '',
       isLoading: true,
-    });
+      timestamp: new Date(),
+    };
+
+    setConversationHistory(prev => [...prev, loadingMessage]);
 
     // Set 15 second interval before showing mock response
     timeoutRef.current = setTimeout(() => {
+      // Pick a random mock data item from the array
+      const randomIndex = Math.floor(Math.random() * mockData.length);
+      const randomData = mockData[randomIndex];
       const mockResponse = {
         userMessage: message,
-        message: `Based on our Austin trip data from the last six months, here are the top 5 busiest destinations where Fetii groups travel:
-The Aquarium (East 6th Street) 64 Trips
-Wiggle Room (Nueces Street) 52 Trips
-Shakespeare’s (East 6th Street) 45 Trips
-Mayfair Austin (West 6th Street) 43 Trips
-Latchkey (East 6th Street) 32 Visits`,
+        message: randomData.message,
         isLoading: false,
-        cards: [
-          {
-            indicator: 1,
-            visits: 64,
-            title: "The Aquarium on 6th",
-            address: "East 6th Street, Austin, TX",
-            category: "Entertainment",
-            lat: 30.2672,
-            lng: -97.7324,
-          },
-          {
-            indicator: 2,
-            visits: 52,
-            title: "Wiggle Room",
-            address: "Nueces Street, Austin, TX",
-            category: "Nightlife",
-            lat: 30.2691,
-            lng: -97.7501,
-          },
-          {
-            indicator: 3,
-            visits: 45,
-            title: "Shakespeare's",
-            address: "East 6th Street, Austin, TX",
-            category: "Entertainment",
-            lat: 30.2678,
-            lng: -97.733,
-          },
-          {
-            indicator: 4,
-            visits: 43,
-            title: "Mayfair Austin",
-            address: "West 6th Street, Austin, TX",
-            category: "Nightlife",
-            lat: 30.2685,
-            lng: -97.7519,
-          },
-          {
-            indicator: 5,
-            visits: 32,
-            title: "Latchkey",
-            address: "East 6th Street, Austin, TX",
-            category: "Entertainment",
-            lat: 30.2668,
-            lng: -97.732,
-          },
-        ],
+        cards: randomData.cards,
       };
 
-      setAssistantData(mockResponse);
+      // Replace loading message with actual response
+      let newMessageId = null;
+      setConversationHistory(prev => {
+        const updated = prev.map(msg => {
+          if (msg.isLoading && msg.type === 'assistant') {
+            newMessageId = msg.id; // Store the ID of the message being created
+            return {
+              id: msg.id,
+              type: 'assistant',
+              message: mockResponse.message,
+              isLoading: false,
+              cards: mockResponse.cards || [],
+              timestamp: new Date(),
+            };
+          }
+          return msg;
+        });
+        return updated;
+      });
+      
+      // Set the newly created message as selected
+      if (newMessageId) {
+        setSelectedMessageId(newMessageId);
+      }
+
       setIsLoading(false);
       timeoutRef.current = null;
     }, 15000); // 15 seconds
@@ -132,8 +132,9 @@ Latchkey (East 6th Street) 32 Visits`,
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    setAssistantData(null);
+    setConversationHistory([]);
     setSelectedMarkerId(null);
+    setSelectedMessageId(null);
     setIsLoading(false);
   };
 
@@ -154,32 +155,86 @@ Latchkey (East 6th Street) 32 Visits`,
         isOpen={isSidebarOpen}
         onClose={closeSidebar}
         onAssistantCall={handleAssistantCall}
-        assistantData={assistantData}
+        conversationHistory={conversationHistory}
+        isLoading={isLoading}
+        onAssistantMessageClick={setSelectedMessageId}
+        selectedMessageId={selectedMessageId}
       />
 
-      {assistantData && assistantData.cards && (
-        <ClearResult
-          onClear={handleClearResults}
-          isSidebarOpen={isSidebarOpen}
-        />
-      )}
-
-      {assistantData && assistantData.cards && (
-        <PlaceCardWrapper
-          cards={assistantData.cards}
-          onCardClick={setSelectedMarkerId}
-          selectedCardIndex={selectedMarkerId}
-        />
-      )}
+      {/* Get cards from selected or latest assistant message that has cards - only show when not loading */}
+      {(() => {
+        // Find the selected message or fall back to latest message with cards
+        let messageWithCards = null;
+        
+        if (selectedMessageId) {
+          messageWithCards = conversationHistory.find(msg => msg.id === selectedMessageId && msg.cards && msg.cards.length > 0);
+        }
+        
+        // If no selected message or selected message doesn't have cards, use latest
+        if (!messageWithCards) {
+          messageWithCards = [...conversationHistory]
+            .reverse()
+            .find(msg => msg.cards && msg.cards.length > 0);
+        }
+        
+        // Only show cards when not loading and we have a message with cards
+        if (isLoading || !messageWithCards) {
+          return null;
+        }
+        
+        return (
+          <>
+            <ClearResult
+              onClear={handleClearResults}
+              isSidebarOpen={isSidebarOpen}
+            />
+            <PlaceCardWrapper
+              cards={messageWithCards.cards}
+              onCardClick={setSelectedMarkerId}
+              selectedCardIndex={selectedMarkerId}
+            />
+          </>
+        );
+      })()}
 
       {/*------ Map Functionality ------*/}
       <div className="dashboard-wrapper">
-        <LeafletMap
-          places={assistantData?.cards || []}
-          selectedMarkerId={selectedMarkerId}
-          onMarkerDeselect={() => setSelectedMarkerId(null)}
-          onMarkerSelect={setSelectedMarkerId}
-        />
+        {(() => {
+          // Don't show markers during loading, show empty map
+          if (isLoading) {
+            return (
+              <LeafletMap
+                places={[]}
+                selectedMarkerId={null}
+                onMarkerDeselect={() => setSelectedMarkerId(null)}
+                onMarkerSelect={setSelectedMarkerId}
+              />
+            );
+          }
+
+          // Find the selected message or fall back to latest message with cards
+          let messageWithCards = null;
+          
+          if (selectedMessageId) {
+            messageWithCards = conversationHistory.find(msg => msg.id === selectedMessageId && msg.cards && msg.cards.length > 0);
+          }
+          
+          // If no selected message or selected message doesn't have cards, use latest
+          if (!messageWithCards) {
+            messageWithCards = [...conversationHistory]
+              .reverse()
+              .find(msg => msg.cards && msg.cards.length > 0);
+          }
+          
+          return (
+            <LeafletMap
+              places={messageWithCards?.cards || []}
+              selectedMarkerId={selectedMarkerId}
+              onMarkerDeselect={() => setSelectedMarkerId(null)}
+              onMarkerSelect={setSelectedMarkerId}
+            />
+          );
+        })()}
       </div>
 
       <LoadingUI isVisible={isLoading} />
