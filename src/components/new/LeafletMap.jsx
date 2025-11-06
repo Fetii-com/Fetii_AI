@@ -163,7 +163,7 @@ const LeafletMap = ({
   // Ref to store marker references
   const markerRefs = useRef({});
 
-  // Filter places that have coordinates (lat and lng from mockResponse)
+  // Filter places that have coordinates (lat and lng)
   const placesWithCoords = useMemo(() => {
     return places.filter((place) => place.lat && place.lng);
   }, [places]);

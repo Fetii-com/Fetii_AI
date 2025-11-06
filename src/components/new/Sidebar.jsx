@@ -55,7 +55,7 @@ const Sidebar = ({
   const currentLoadingMessageIndex = useLoadingMessageRotation(
     isMobile,
     conversationHistory,
-    LOADING_MESSAGES.SIDEBAR,
+    LOADING_MESSAGES.SIDEBAR
   );
 
   // Use auto-grow textarea hook
@@ -198,12 +198,11 @@ const Sidebar = ({
                     ) : (
                       <div
                         className={`sidebar-message sidebar-message-assistant`}
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
-                          if (
-                            msg.cards &&
-                            msg.cards.length > 0 &&
-                            onAssistantMessageClick
-                          ) {
+                          // Allow clicking on all assistant messages
+                          // Handler will determine if cards should be shown or cleared
+                          if (onAssistantMessageClick) {
                             onAssistantMessageClick(msg.id);
                           }
                         }}

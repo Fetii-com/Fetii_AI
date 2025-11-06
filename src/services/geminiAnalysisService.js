@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = "";
-const GEOCODING_API_KEY = "";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+const GEOCODING_API_KEY = import.meta.env.VITE_GEOCODING_API_KEY || "";
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
@@ -9,7 +9,9 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const geocodeAddress = async (address) => {
   try {
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GEOCODING_API_KEY}`,
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        address
+      )}&key=${GEOCODING_API_KEY}`
     );
     const data = await response.json();
 
@@ -87,8 +89,6 @@ Now analyze this data:`;
 /* Analyzes response text with Gemini AI to extract location data and visualization type */
 export const analyzeResponseWithGemini = async (responseText) => {
   try {
-    console.log("🧠 Starting Gemini analysis for:", responseText);
-
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",
       tools: [
@@ -144,17 +144,17 @@ export const analyzeResponseWithGemini = async (responseText) => {
 
     // Handle function calls from Gemini
     while (response.functionCalls && response.functionCalls.length > 0) {
-      console.log(
-        "🔧 Gemini requesting function calls:",
-        response.functionCalls,
-      );
+      // console.log(
+      //   "🔧 Gemini requesting function calls:",
+      //   response.functionCalls
+      // );
 
       const functionResults = [];
 
       for (const call of response.functionCalls) {
         if (call.name === "geocodeAddress") {
           const address = call.args.address;
-          console.log("📍 Geocoding address:", address);
+          // console.log("📍 Geocoding address:", address);
           const coords = await geocodeAddress(address);
           functionResults.push({
             name: call.name,
@@ -169,7 +169,7 @@ export const analyzeResponseWithGemini = async (responseText) => {
     }
 
     const text = response.text();
-    console.log("🧠 Gemini raw response:", text);
+    // console.log("🧠 Gemini raw response:", text);
 
     // Extract JSON from Gemini response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -178,7 +178,7 @@ export const analyzeResponseWithGemini = async (responseText) => {
     }
 
     const analysisResult = JSON.parse(jsonMatch[0]);
-    console.log("✅ Gemini analysis result:", analysisResult);
+    // console.log("✅ Gemini analysis result:", analysisResult);
 
     return analysisResult;
   } catch (error) {

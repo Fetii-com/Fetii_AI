@@ -127,22 +127,21 @@ function SimpleChatInterface({ onMessageSent, isAnalyzing }) {
 
     // Send to n8n webhook using the working format
     try {
-      const response = await fetch(
-        "/webhook/1203a737-5c17-4c8e-9730-37dc59e8f34e/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Instance-Id":
-              "5c03a30c37683f0cce158d1624c4545432736710298667ae3bf3ee07e668bc12",
-          },
-          body: JSON.stringify({
-            action: "sendMessage",
-            sessionId: "web-session-" + Date.now(),
-            chatInput: currentMessage,
-          }),
+      const webhookPath = import.meta.env.VITE_WEBHOOK_PATH || "";
+      const instanceId = import.meta.env.VITE_INSTANCE_ID || "";
+
+      const response = await fetch(webhookPath, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Instance-Id": instanceId,
         },
-      );
+        body: JSON.stringify({
+          action: "sendMessage",
+          sessionId: "web-session-" + Date.now(),
+          chatInput: currentMessage,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();
