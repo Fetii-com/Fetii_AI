@@ -8,11 +8,12 @@ import PlaceCardWrapper from "../../components/new/PlaceCardWrapper";
 import LeafletMap from "../../components/new/LeafletMap";
 import LoadingUI from "../../components/new/LoadingUI";
 
-// hooks
-import useResolution from "../../hooks/useResolution";
-
 // utils
-import { findMessageWithCards, createUserMessage, createLoadingMessage } from "../../utils/messageUtils";
+import {
+  findMessageWithCards,
+  createUserMessage,
+  createLoadingMessage,
+} from "../../utils/messageUtils";
 import { MESSAGE_TYPES } from "../../utils/constants";
 
 // data
@@ -23,7 +24,7 @@ import "../../assets/styles/dashboard.css";
 
 /* NewDashboard Component */
 const NewDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,21 +38,13 @@ const NewDashboard = () => {
 
   // Computed: Cards to display on map
   const mapPlaces = useMemo(() => {
-    return isLoading ? [] : (currentMessageWithCards?.cards || []);
+    return isLoading ? [] : currentMessageWithCards?.cards || [];
   }, [isLoading, currentMessageWithCards]);
 
   // Computed: Whether to show cards section
   const shouldShowCards = useMemo(() => {
     return !isLoading && currentMessageWithCards && currentMessageWithCards.cards?.length > 0;
   }, [isLoading, currentMessageWithCards]);
-
-  // Use common resolution detection hook
-  const { isDesktop } = useResolution();
-
-  /* Handle window resize - on desktop, sidebar should always be open - Automatically opens sidebar on desktop screens */
-  useEffect(() => {
-    setIsSidebarOpen(isDesktop);
-  }, [isDesktop]);
 
   /* Toggles sidebar open/closed state */
   const toggleSidebar = () => {
@@ -77,11 +70,11 @@ const NewDashboard = () => {
 
     // Add user message to conversation history
     const userMessage = createUserMessage(message);
-    setConversationHistory(prev => [...prev, userMessage]);
+    setConversationHistory((prev) => [...prev, userMessage]);
 
     // Add loading message
     const loadingMessage = createLoadingMessage();
-    setConversationHistory(prev => [...prev, loadingMessage]);
+    setConversationHistory((prev) => [...prev, loadingMessage]);
 
     // Set 7 second interval before showing mock response
     timeoutRef.current = setTimeout(() => {
@@ -97,8 +90,8 @@ const NewDashboard = () => {
 
       // Replace loading message with actual response
       let newMessageId = null;
-      setConversationHistory(prev => {
-        const updated = prev.map(msg => {
+      setConversationHistory((prev) => {
+        const updated = prev.map((msg) => {
           if (msg.isLoading && msg.type === MESSAGE_TYPES.ASSISTANT) {
             newMessageId = msg.id; // Store the ID of the message being created
             return {
@@ -113,7 +106,7 @@ const NewDashboard = () => {
         });
         return updated;
       });
-      
+
       // Set the newly created message as selected
       if (newMessageId) {
         setSelectedMessageId(newMessageId);
