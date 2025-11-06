@@ -43,7 +43,11 @@ const NewDashboard = () => {
 
   // Computed: Whether to show cards section
   const shouldShowCards = useMemo(() => {
-    return !isLoading && currentMessageWithCards && currentMessageWithCards.cards?.length > 0;
+    return (
+      !isLoading &&
+      currentMessageWithCards &&
+      currentMessageWithCards.cards?.length > 0
+    );
   }, [isLoading, currentMessageWithCards]);
 
   /* Toggles sidebar open/closed state */
