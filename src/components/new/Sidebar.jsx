@@ -252,7 +252,7 @@ const Sidebar = ({
               <div className="sidebar-input-container">
                 <textarea
                   ref={textareaRef}
-                  placeholder="Ask about Austin..."
+                  placeholder="Ask Fiora anything..."
                   className="sidebar-textarea-field"
                   value={inputValue}
                   onChange={handleInputChange}
