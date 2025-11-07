@@ -103,9 +103,8 @@ const NewDashboard = () => {
     const currentMessage = message;
 
     try {
-       const webhookPath = import.meta.env.VITE_WEBHOOK_PATH || "";
-        const instanceId = import.meta.env.VITE_INSTANCE_ID || "";
-        
+      const webhookPath = import.meta.env.VITE_WEBHOOK_PATH || "";
+      const instanceId = import.meta.env.VITE_INSTANCE_ID || "";
 
       const response = await fetch(webhookPath, {
         method: "POST",
@@ -229,7 +228,6 @@ const NewDashboard = () => {
       setSelectedMarkerId(null);
     }
   };
-  
 
   /* Clears assistant data and resets to initial state */
   const handleClearResults = () => {
