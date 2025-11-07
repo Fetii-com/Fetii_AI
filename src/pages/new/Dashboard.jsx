@@ -24,7 +24,7 @@ import { MESSAGE_TYPES } from "../../utils/constants";
 
 // styles
 import "../../assets/styles/dashboard.css";
-
+console.log("hello");
 /* NewDashboard Component */
 const NewDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -103,8 +103,11 @@ const NewDashboard = () => {
     const currentMessage = message;
 
     try {
-      const webhookPath = import.meta.env.VITE_WEBHOOK_PATH || "";
-      const instanceId = import.meta.env.VITE_INSTANCE_ID || "";
+      // const webhookPath = import.meta.env.VITE_WEBHOOK_PATH || "";
+      // const instanceId = import.meta.env.VITE_INSTANCE_ID || "";
+        const webhookPath = '/webhook/1203a737-5c17-4c8e-9730-37dc59e8f34e/chat'
+        
+        const instanceId = '5c03a30c37683f0cce158d1624c4545432736710298667ae3bf3ee07e668bc12';
 
       const response = await fetch(webhookPath, {
         method: "POST",
@@ -228,6 +231,7 @@ const NewDashboard = () => {
       setSelectedMarkerId(null);
     }
   };
+  
 
   /* Clears assistant data and resets to initial state */
   const handleClearResults = () => {

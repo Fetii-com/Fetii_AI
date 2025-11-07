@@ -12,7 +12,7 @@ export default defineConfig({
                 changeOrigin: true
             },
             '/webhook': {
-                target: 'https://fetii.app.n8n.cloud',
+                target: 'https://fetii-hq.app.n8n.cloud',
                 changeOrigin: true,
                 secure: true,
                 rewrite: (path) => path.replace(/^\/webhook/, '/webhook')
@@ -20,3 +20,4 @@ export default defineConfig({
         }
     }
 })
+
