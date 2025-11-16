@@ -81,11 +81,19 @@ const NewDashboard = () => {
 
   /* Handles API call when suggestion is clicked or message is sent */
   const handleAssistantCall = async (message) => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+  // 🔒 Ensure sessionId persists across messages
+  let sessionId = localStorage.getItem("fioriSessionId");
+
+  if (!sessionId) {
+    sessionId = "web-session-" + crypto.randomUUID();
+    localStorage.setItem("fioriSessionId", sessionId);
+  }
+
+  // Clear any existing timeout
+  if (timeoutRef.current) {
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
+  }
 
     // Clear previous results and reset selected marker when loading starts
     setSelectedMarkerId(null);
@@ -114,7 +122,7 @@ const NewDashboard = () => {
         },
         body: JSON.stringify({
           action: "sendMessage",
-          sessionId: "web-session-" + Date.now(),
+          sessionId: sessionId,
           chatInput: currentMessage,
         }),
       });
