@@ -10,6 +10,7 @@ import LoadingUI from "../../components/new/LoadingUI";
 
 // hooks
 import useFormatBotResponse from "../../hooks/useFormatBotResponse";
+import useUserCity from "../../hooks/useUserCity";
 
 // services
 import { analyzeResponseWithGemini } from "../../services/geminiAnalysisService";
@@ -33,7 +34,7 @@ const NewDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMessageId, setSelectedMessageId] = useState(null); // Track which assistant message is selected
   const timeoutRef = useRef(null);
-
+  const userCity = useUserCity();
   // Computed: Find the current message with cards to display
   const currentMessageWithCards = useMemo(() => {
     return findMessageWithCards(conversationHistory, selectedMessageId);
@@ -124,6 +125,7 @@ const NewDashboard = () => {
           action: "sendMessage",
           sessionId: sessionId,
           chatInput: currentMessage,
+          user_city: userCity || "Austin",
         }),
       });
 
